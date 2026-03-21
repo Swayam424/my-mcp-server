@@ -1,6 +1,3 @@
-from fastmcp import FastMCP
-
-# 1. Initialize the MCP Server
 mcp = FastMCP("MyFirstServer")
 
 # 2. Add a simple Tool
@@ -13,4 +10,7 @@ def get_favorite_snack(name: str) -> str:
 
 # 3. This starts the server
 if __name__ == "__main__":
-    mcp.run(transport="sse")
+   if __name__ == "__main__":
+    import os
+    port = int(os.getenv("PORT", 8000))
+    mcp.run(transport="sse", host="0.0.0.0", port=port)
