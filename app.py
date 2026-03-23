@@ -1,20 +1,26 @@
-from fastmcp import FastMCP  # <--- THIS IS THE MISSING LINE!
+from fastmcp import FastMCP
+from starlette.middleware.cors import CORSMiddleware
 import os
 
 # 1. Initialize the MCP Server
 mcp = FastMCP("MyFirstServer")
 
-# 2. Add a simple Tool
+# 2. Add CORS Middleware (The "Universal Key")
+mcp.app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all websites/apps to connect
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# 3. Your Samosa Tool
 @mcp.tool()
 def get_favorite_snack(name: str) -> str:
-    """
-    A simple tool that tells you what snack someone likes.
-    """
-    return f"I've checked my data, {name}. You look like someone who enjoys Samosas!"
+    """A tool that predicts your favorite snack."""
+    return f"I've analyzed the data, {name}. You definitely enjoy Samosas!"
 
-# 3. This starts the server correctly for Render
+# 4. Start command for Render
 if __name__ == "__main__":
-    # Render provides a PORT environment variable automatically
     port = int(os.getenv("PORT", 8000))
-    # '0.0.0.0' tells the server to listen to the internet
     mcp.run(transport="sse", host="0.0.0.0", port=port)
