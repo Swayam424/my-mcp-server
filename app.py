@@ -1,5 +1,5 @@
 from fastmcp import FastMCP
-from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware  # <--- Make sure this is there!
 import os
 
 # 1. Initialize the MCP Server
